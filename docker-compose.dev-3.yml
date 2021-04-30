@@ -1,0 +1,37 @@
+#
+# Нужен для развертывания СТЕКА на сервере dev-3.dev.bostongene.internal
+#
+
+version: "3.2"
+
+services:
+  postgresql:
+    image: postgres:11.8
+    shm_size: '128m'
+    environment:
+      POSTGRES_DB: drug-annotations
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+    ports:
+      - 5432:5432
+    restart: always
+
+  backend:
+    image: wordedword75049/drugs-annotations:develop
+    command: backend
+    depends_on:
+      - postgresql
+    environment:
+      DB_HOST: postgresql
+      DB_NAME: drug-annotations
+      DB_USERNAME: postgres
+      DB_PASSWORD: 12345
+
+  frontend:
+    image: wordedword75049/drugs-annotations:develop
+    command: frontend
+    depends_on:
+      - backend
+    ports:
+      - 8080:80
+

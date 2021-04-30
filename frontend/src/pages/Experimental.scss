@@ -1,0 +1,29 @@
+ul {
+  margin: 0;
+  padding: 0 0 0 18px;
+  text-align: right;
+}
+.avicenna-block{
+  &__label { 
+    position:absolute;
+    top: 5%;
+    color: #FF0000; 
+    right: 20%;
+  }
+}
+.batch-progress__label{
+  position: absolute;
+  right: 10%; 
+}
+
+.radio-set {
+  position: fixed;
+  left: 8%;
+  // top: 5%;
+}
+
+.candidate-table {
+  position: absolute;
+  // left: 5%;
+  // bottom: -20px;
+}

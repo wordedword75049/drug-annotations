@@ -1,0 +1,38 @@
+#
+# Нужен для запуска СТЕКА приложения локально
+#
+
+version: "3.2"
+
+# см. https://docs.docker.com/compose/compose-file/compose-file-v3/
+
+services:
+  postgresql:
+    image: postgres:11.8
+    environment:
+      POSTGRES_DB: drug-annotations
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+    ports:
+      - 5432:5432
+
+  backend:
+    build: .
+    command: backend
+    depends_on:
+      - postgresql
+    environment:
+      DB_HOST: postgresql
+      DB_NAME: drug-annotations
+      DB_USERNAME: postgres
+      DB_PASSWORD: 12345
+    ports:
+      - 5000:5000
+
+  frontend:
+    build: .
+    command: frontend
+    depends_on:
+      - backend
+    ports:
+      - 8080:80

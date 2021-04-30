@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec:
+  selector:
+    matchLabels:
+      app: postgres-container
+  template:
+    metadata:
+      labels:
+        app: postgres-container
+    spec:
+      containers:
+        - name: postgres-container
+          image: postgres:11.8
+          env:
+            - name: POSTGRES_DB
+              value: "drug-annotations"
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "12345"
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: drug-annotations-postgresql
+      volumes:
+        - name: drug-annotations-postgresql
+          emptyDir: {}
+          #persistentVolumeClaim:
+            #claimName: postgres-pvc

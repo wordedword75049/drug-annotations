@@ -1,0 +1,17 @@
+@import "styles/_variables";
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: $font-family;
+}
+
+.container{
+  padding-top: 20px;
+}
+
+li {
+  // margin: 20px;
+  // padding: 0 0 0 18px;
+  text-align: left;
+}

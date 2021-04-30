@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: drug-annotations
+  name: drug-annotations
+spec:
+  selector:
+    matchLabels:
+      app: drug-annotations
+  template:
+    metadata:
+      labels:
+        app: drug-annotations
+    spec:
+      containers:
+        - name: frontend
+          env:
+            - name: API_HOST
+              value: "localhost"
+          image: docker.devbg.us/bostongene/drugs-annotations:develop
+          imagePullPolicy: Always
+          args: [ "frontend" ]
+          ports:
+            - containerPort: 80
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /drug-annotations/api/healthcheck
+              port: 80
+            initialDelaySeconds: 15
+            timeoutSeconds: 10
+        - name: backend
+          env:
+            - name: DB_HOST
+              value: "postgres-service"
+            - name: DB_NAME
+              value: "drug-annotations"
+            - name: DB_USERNAME
+              value: "postgres"
+            - name: DB_PASSWORD
+              value: "12345"
+          image: docker.devbg.us/bostongene/drugs-annotations:develop
+          imagePullPolicy: Always
+          args: [ "backend" ]
+          ports:
+            - containerPort: 5000
+              name: api
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 30
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 5000
+            initialDelaySeconds: 15
+            timeoutSeconds: 10
