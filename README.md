@@ -1,5 +1,8 @@
 # Drugs annotations
 
+A version of an existing drug annotation application used for a university thesis.
+Includes a backend API and a web frontend.
+
 ## Запуск приложения
 
 1. Launch file 
